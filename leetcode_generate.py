@@ -386,14 +386,14 @@ class Leetcode:
                 )
             )
             return
-
-        qname = 'Q{id}-{title}'.format(id=qid,title=qtitle)
+        # 中划线改为下划线。使符合Java命名规范
+        qname = 'Q{id}_{title}'.format(id=qid,title=qtitle.replace('-','_'))
         print('begin download ' + qname)
         path = Path.joinpath(SOLUTION_FOLDER, qname)
         check_and_make_dir(path)
         for slt in slts:
             fname = '{title}.{ext}'.format(
-                title=qtitle, ext=self.prolangdict[slt['lang']].ext
+                title=qtitle.replace('-','_'), ext=self.prolangdict[slt['lang']].ext
             )
             filename = Path.joinpath(path, fname)
             content = self._get_code_with_anno(slt)
@@ -440,20 +440,21 @@ class Leetcode:
         languages_readme = ','.join([x.capitalize() for x in self.languages])
         md = '''
 I have solved **{num_solved}** problems
-| # | Title | Source Code | Difficulty |
+| # | Title | Source Code | Difficulty | Last submission url |
 |:---:|:---:|:---:|:---:|:---:|'''.format(
             num_solved=self.num_solved
         )
         for item in self.items:
-            if item.is_lock:
+            # md中只记录AC的题目
+            if item.status != 'ac':
                 continue
             else:
                 md += '\n'
                 if item.solutions:
-                    dirname = '{folder}/{id}-{title}'.format(
+                    dirname = '{folder}/{id}_{title}'.format(
                         folder=SOLUTION_FOLDER_NAME,
                         id=str(item.question_id),
-                        title=item.question__title_slug,
+                        title=item.question__title_slug.replace('-','_'),
                     )
                     language = ''
                     language_lst = [
@@ -466,18 +467,19 @@ I have solved **{num_solved}** problems
                         language += '[{language}](/https://github.com/MsLL/leetcode/blob/master/{dirname}/{title}.{ext})'.format(
                             language=lan.capitalize(),
                             dirname=dirname,
-                            title=item.question__title_slug,
+                            title=item.question__title_slug.replace('-','_'),
                             ext=self.prolangdict[lan].ext,
                         )
                         language += ' '
                 else:
                     language = ''
             language = language.strip()
-            md += '|{id}|{title}|{language}|{difficulty}|\n'.format(
+            md += '|{id}|{title}|{language}|{difficulty}|{lastSubmissionUrl}|\n'.format(
                 id=item.question_id,
                 title=item.question__title_slug,
                 language=language,
                 difficulty=item.difficulty,
+                lastSubmissionUrl=item.solutions[0]['submission_url']
             )
         with open('README.md', 'w') as f:
             f.write(md)
