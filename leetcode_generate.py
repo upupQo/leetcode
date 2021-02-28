@@ -279,6 +279,7 @@ class Leetcode:
                 runtime=int(sub['runtime'][:-3]),
                 title=sub['title'],
                 lang=sub['lang'],
+                last_submission_time=time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(sub['timestamp'])),
                 submission_url=self.base_url + sub['url'],
             )
 
@@ -441,8 +442,8 @@ class Leetcode:
         languages_readme = ','.join([x.capitalize() for x in self.languages])
         md = '''
 I have solved **{num_solved}** problems
-| # | Title | Source Code | Difficulty | Last submission url |
-|:---:|:---:|:---:|:---:|:---:|'''.format(
+| # | Title | Source Code | Difficulty | Last submission date | Last submission url |
+|:---:|:---:|:---:|:---:|:---:|:---:|'''.format(
             num_solved=self.num_solved
         )
         md += '\n'
@@ -475,11 +476,12 @@ I have solved **{num_solved}** problems
                 else:
                     language = ''
             language = language.strip()
-            md += '|{id}|{title}|{language}|{difficulty}|{lastSubmissionUrl}|\n'.format(
+            md += '|{id}|{title}|{language}|{difficulty}|{lastSubmissionDate}|{lastSubmissionUrl}|\n'.format(
                 id=item.question_id,
                 title=item.question__title_slug,
                 language=language,
                 difficulty=item.difficulty,
+                lastSubmissionDate=item.solutions[0]['last_submission_time'],
                 lastSubmissionUrl=item.solutions[0]['submission_url']
             )
         with open('README.md', 'w') as f:
