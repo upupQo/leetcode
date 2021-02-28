@@ -456,8 +456,8 @@ I have solved **{num_solved}** problems
                 if item.solutions:
                     dirname = '{folder}/{id}_{title}'.format(
                         folder=SOLUTION_FOLDER_NAME,
-                        id=str(item.question_id),
-                        title=item.question__title_slug.replace('-','_'),
+                        id="Q" + str(item.question_id),
+                        title=item.question__title_slug.replace('-', '_'),
                     )
                     language = ''
                     language_lst = [
@@ -467,7 +467,7 @@ I have solved **{num_solved}** problems
                     ]
                     while language_lst:
                         lan = language_lst.pop()
-                        language += '[{language}](/https://github.com/MsLL/leetcode/blob/master/{dirname}/{title}.{ext})'.format(
+                        language += '[{language}](https://github.com/MsLL/leetcode/blob/master/{dirname}/{title}.{ext})'.format(
                             language=lan.capitalize(),
                             dirname=dirname,
                             title=item.question__title_slug.replace('-','_'),
