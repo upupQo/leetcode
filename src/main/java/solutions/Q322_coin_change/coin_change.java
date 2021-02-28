@@ -1,0 +1,80 @@
+// You are given coins of different denominations and a total amount of money amount. Write a function to compute the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.
+//
+// You may assume that you have an infinite number of each kind of coin.
+//
+//  
+// Example 1:
+//
+//
+// Input: coins = [1,2,5], amount = 11
+// Output: 3
+// Explanation: 11 = 5 + 5 + 1
+//
+//
+// Example 2:
+//
+//
+// Input: coins = [2], amount = 3
+// Output: -1
+//
+//
+// Example 3:
+//
+//
+// Input: coins = [1], amount = 0
+// Output: 0
+//
+//
+// Example 4:
+//
+//
+// Input: coins = [1], amount = 1
+// Output: 1
+//
+//
+// Example 5:
+//
+//
+// Input: coins = [1], amount = 2
+// Output: 2
+//
+//
+//  
+// Constraints:
+//
+//
+// 	1 <= coins.length <= 12
+// 	1 <= coins[i] <= 231 - 1
+// 	0 <= amount <= 104
+//
+//
+
+
+class Solution {
+    // 322换硬币--贪心失败 eg:{2,3},7。---无穷背包
+    // coins[]:硬币种类
+    // amount钱的字面值
+    public int coinChange(int[] coins, int amount) {
+        int dp[][] = new int[coins.length][amount + 1];// dp[i][j]:用硬币coins[0,i]，换字面值为j得钱，最少要多少个硬币，换不出来记为-1
+        // 1.初始化首行
+        for (int j = 0; j < dp[0].length; j++) {
+            dp[0][j] = j % coins[0] == 0 ? j / coins[0] : -1;
+        }
+        // 2.初始化首列
+        for (int i = 0; i < dp.length; i++) {
+            dp[i][0] = 0;
+        }
+        // 3.逐行填充，每行从左往右填:用coins[0，i]换字面值为j的钱
+        for (int i = 1; i < dp.length; i++) {
+            for (int j = 1; j < dp[0].length; j++) {
+                dp[i][j] = -1;
+                for (int k = 0; k * coins[i] <= j; k++) {
+                    if (dp[i - 1][j - k * coins[i]] != -1) {
+                        dp[i][j] = dp[i][j] == -1 ? dp[i - 1][j - k * coins[i]] + k : Math.min(dp[i][j], dp[i - 1][j - k * coins[i]] + k);
+                    }
+                }
+            }
+        }
+        return dp[coins.length - 1][amount];
+    }
+}
