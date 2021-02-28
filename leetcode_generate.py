@@ -164,13 +164,14 @@ class Leetcode:
         self.cookies = None
 
     def login(self):
+    #登陆后粘过来
         self.cookies = {
             "_ga":"GA1.2.266312652.1595998554",
             "__atuvc":"8|31",
             "__cfduid":"da7ae3427569a284555e8f4e80ce513211614484627",
             "_gid":"GA1.2.1628011054.1614484631",
-            "csrftoken":"XJAdfupeoQiKC5DCfNkgK0BgnSXg1vPj5Z0v7IngLMYlfCUVVNDItkWFmhFpmwdc",
-            "LEETCODE_SESSION":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfYXV0aF91c2VyX2lkIjoiNzAzOTQxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYWxsYXV0aC5hY2NvdW50LmF1dGhfYmFja2VuZHMuQXV0aGVudGljYXRpb25CYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiZDFlZjc4MTY4YmFjYTdiMmJkZmY5Y2YzMjM0ZGI4MjE0ZjIyMGMyZSIsImlkIjo3MDM5NDEsImVtYWlsIjoiMjAyNDE0OTIxMkBxcS5jb20iLCJ1c2VybmFtZSI6ImhmdmoiLCJ1c2VyX3NsdWciOiJoZnZqIiwiYXZhdGFyIjoiaHR0cHM6Ly9hc3NldHMubGVldGNvZGUuY29tL3VzZXJzL21zbGwvYXZhdGFyXzE1MTkzMDc2MDAucG5nIiwicmVmcmVzaGVkX2F0IjoxNjE0NDg0NjQyLCJpcCI6IjIwMi43Ni4yNDcuMTQ2IiwiaWRlbnRpdHkiOiI1MzA4YTc1NmU3YzQ5ODY5YjAzOTdhNDVkN2Y2NjZlZCIsInNlc3Npb25faWQiOjY4Mjk2Mzh9.hUHEAHnxu5-hxszo8cKD_rQiCvmSHfbWfRowPecGNVU",
+            "csrftoken":"paste it after login",
+            "LEETCODE_SESSION":"paste it after login"
             "__cf_bm":"46469bc5814e862616050fb9f648c3fd97047cb6-1614485896-1800-AeVfze5t8zaPDrPOU21ebmPUlFAe31pUo1jprTht5B7kEkjEizJBVFKHH5gs96W0KbryygnfSk8zkgSbY/AEfeU="
         }
         self.session.cookies.update(self.cookies)
