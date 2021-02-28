@@ -21,7 +21,8 @@ from collections import namedtuple, OrderedDict
 
 HOME = Path.cwd()
 MAX_DIGIT_LEN = 4  # 1000+ PROBLEMS
-SOLUTION_FOLDER_NAME = 'solutions'
+# java项目路径格式
+SOLUTION_FOLDER_NAME = 'src/main/java/solutions'
 SOLUTION_FOLDER = Path.joinpath(HOME, SOLUTION_FOLDER_NAME)
 BASE_URL = 'https://leetcode.com'
 # If you have proxy, change PROXIES below
@@ -444,12 +445,12 @@ I have solved **{num_solved}** problems
 |:---:|:---:|:---:|:---:|:---:|'''.format(
             num_solved=self.num_solved
         )
+        md += '\n'
         for item in self.items:
             # md中只记录AC的题目
             if item.status != 'ac':
                 continue
             else:
-                md += '\n'
                 if item.solutions:
                     dirname = '{folder}/{id}_{title}'.format(
                         folder=SOLUTION_FOLDER_NAME,
