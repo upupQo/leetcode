@@ -1,3 +1,4 @@
+# Summary
 I have solved **174** problems：Easy(**37**)、Medium(**105**)、Hard(**32**)。
 
 leetcode_generate.py脚本改自 https://github.com/bonfy/leetcode/blob/master/leetcode_generate.py
@@ -178,3 +179,73 @@ leetcode_generate.py脚本改自 https://github.com/bonfy/leetcode/blob/master/l
 |747|min-cost-climbing-stairs|[Java](https://github.com/MsLL/leetcode/blob/master/src/main/java/solutions/Q747_min_cost_climbing_stairs/min_cost_climbing_stairs.java)|Easy|2018-02-27 23:53:32|https://leetcode.com/submissions/detail/142644338/|
 |778|reorganize-string|[Java](https://github.com/MsLL/leetcode/blob/master/src/main/java/solutions/Q778_reorganize_string/reorganize_string.java)|Medium|2018-02-21 21:17:48|https://leetcode.com/submissions/detail/141750948/|
 |993|tallest-billboard|[Java](https://github.com/MsLL/leetcode/blob/master/src/main/java/solutions/Q993_tallest_billboard/tallest_billboard.java)|Hard|2018-12-14 21:34:59|https://leetcode.com/submissions/detail/195067385/|
+# Detail
+## 1.两数之和
+### solution1
+最直观暴力原生的做法，遍历每个位置i, 看是否有j能够和它组成一个和。
+```text
+for(int i=0; i< arr.length; i++){
+    for(j=i+1; j< arr.length; j++){
+        if(arr[i] = arr[j] == sum){
+            return (i,j);
+        }
+    }
+}
+```
+时间复杂度O(n*n), 空间复杂度O(1)
+### solution2(prefer)
+遍历每一个位置i,看前面是否出现过值sum-arr[i], 如果有，则找到了两数只和。过程中需要借助一个map维护value->index的映射。
+```text
+function int[] twoSum(int[] arr, int target){
+    int[] res = new int[2];
+    Map<Integer,Integer> map= new HashMap<>();
+    for(int i=0; i< arr.length; i++){
+        if(map.contains(target - arr[i])){      
+            res[0] = map.get(target - arr[i]);
+            res[1] = i;
+            return res;
+        }
+        map.put(arr[i],i);
+    }
+    return res;
+}
+```
+### solution3
+如果输入是一个有序列表，那么可以用双指针夹逼。时间复杂度O(n),空间复杂度O(1)。
+```text
+function int[] twoSum(int[] arr, int target){
+    int start = 0;
+    int end = arr.length -1;
+    while(start > end){
+        if(arr[start] + arr[end] == target){
+            return (start,end); 
+        }
+        if(arr[start] + arr[end] > target){
+            start++;
+        }else {
+            end --;
+        }
+    }
+}
+```
+如果输入非有序列表，那么可以先排序O(n*Logn), 在执行如上算法。总体时间复杂度O(n*Logn)， 空间复杂度O(n)
+
+## 91. 二叉搜索树构成种类
+对于任意一个数字i，根据BST树的性质，比i小的数字都应该在左边，比i大的数字都应在在右边。因此，可以枚举每一个root节点, 对于每一个root节点i，countBSTs(1,n) = countBSTs(1,i-1) * countBSTs(i+1,n), 因此就递归拆机成了两个子问题。
+```text
+int countBST(int start, int end){
+    if(start > end){
+        return 0;
+    }
+    if(start == end){
+        1;
+    }
+    int count =0;
+    for(int i=start; i <= end ; i++){
+        count += countBST(start, i-1) * countBST(i+1, end);
+    }
+    return count;
+}
+```
+画个图，中间存在重复子过程，因此需要保存运算保证中的中间结果--> 带备忘录的递归。
+
